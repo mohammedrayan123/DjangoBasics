@@ -16,9 +16,17 @@ def index(request):
 
         if user is not None:
             login(request,user)
-            return redirect('profile')
-        else:
-            return render(request, 'main/index.html')
+            if user.is_superuser:
+                login(request, user)
+                return redirect('staffreg')
+        
+            elif user.is_staff:
+                login(request, user)
+                return redirect('admin1')
+    
+            else:
+                login(request,user)
+                return redirect('profile')
 
     return render(request, 'main/index.html')
 
@@ -54,6 +62,30 @@ def reg(request):
     return render(request, 'main/reg.html')
 
 
+def staffreg(request):
+    if request.method == "POST":
+        name = request.POST.get('name')
+        phone = request.POST.get('phone')
+        addr = request.POST.get('addr')
+        email = request.POST.get('email')
+        Pass = request.POST.get('pass')
+
+        my_user = User.objects.create_user(username=email,email=email,password=Pass,is_staff=True)
+        my_user.save()
+
+        newReg = UserReg(
+            user=my_user,
+            email=email,
+            name=name,
+            phone=phone,
+            addr=addr
+        )
+
+        newReg.save()
+        return redirect('index')
+    return render(request, 'main/staffreg.html')
+
+
 def profile(request):
     user_id = request.user
     data = UserReg.objects.get(user=user_id)
@@ -83,5 +115,10 @@ def editprofile(request,id):
 
 def deleteuser(request,id):
     deldata = UserReg.objects.get(user=id)
+    User.objects.get(id=id).delete()
     deldata.delete()
     return redirect('index')
+
+
+def admin1(request):
+    return render(request, 'main/admin.html')

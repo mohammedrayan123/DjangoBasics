@@ -25,6 +25,8 @@ urlpatterns = [
     path("logout/",logout_user, name="logout_user"),
     path("register",reg,name="register"),
     path("profile",profile,name="profile"),
+    path("staff-reg",staffreg,name="staffreg"),
+    path("admin1",admin1,name="admin1"),
     path("edit-profile/<str:id>/",editprofile,name="editprofile"),
     path('delete/<int:id>/', deleteuser, name='deleteuser'),  
 
