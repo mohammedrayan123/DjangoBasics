@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <div class="text-center">
+        My Todolist Application
+    </div>
+</div>
+
+<div class="row m-auto mt-3">
+    <div class="col-8">
+        <div class="text-center p-2 fw-bolder">
+            Pending Tasks
+            <hr>
+
+            {% for task in task %}
+            <div class="bg-light m-3 p-2 ">
+                <!-- <div class="text-center p-2 fw-bolder"> -->
+                {{ task.taskTitle }}
+                <br />
+                <div class="fw-light">
+                    {{ task.taskDesc }}
+                    <small>
+                        Created at {{ task.taskCreated }}
+                    </small>
+                </div>
+
+                <div class="float-end">
+                    <a href="{% url 'delete-task' task.taskid %}">
+                        <span class="material-symbols-outlined">
+                            delete
+                        </span>
+                    </a>
+
+                    <a href="{% url 'edit-task' task.taskid %}">
+                        <span class="material-symbols-outlined">
+                            edit_note
+                        </span>
+                    </a>
+                </div>
+
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="col-4">
+        <div class="text-center p-2 fw-bolder">
+            Add new Task
+            <hr>
+        </div>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Enter Your Task</label>
+                <input type="text" class="form-control" id="task" name="task">
+            </div>
+            <div class="mb-3">
+                <label for="desc" class="form-label">Description</label>
+                <textarea id="desc" name="desc"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+</div>
+
+<script>
+    var editor1 = new RichTextEditor("#desc");
+</script>
+
+{% endblock content %}

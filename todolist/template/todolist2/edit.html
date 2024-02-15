@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container">
+    <div>
+        Edit Task: {{ task.taskTitle }}
+    </div>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Enter Your Task</label>
+            <input type="text" class="form-control" id="task" name="task" value="{{ task.taskTitle }}">
+        </div>
+        <div class="mb-3">
+            <label for="desc" class="form-label">Description</label>
+            <textarea id="desc" name="desc">{{ task.taskDesc }}</textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+<script>
+    var editor1 = new RichTextEditor("#desc");
+</script>
+
+
+
+{% endblock content %}
