@@ -10,5 +10,7 @@ class UserReg(models.Model):
     phone=models.CharField(max_length=200)
     addr=models.CharField(max_length=200)
     email=models.CharField(max_length=200)
+    task=models.CharField(max_length=200)
+    is_completed=models.BooleanField(default=False)
 
 

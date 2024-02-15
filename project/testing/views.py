@@ -45,6 +45,7 @@ def reg(request):
         addr = request.POST.get('addr')
         email = request.POST.get('email')
         Pass = request.POST.get('pass')
+        task= request.POST.get('task')
 
         my_user = User.objects.create_user(username=email,email=email,password=Pass)
         my_user.save()
@@ -54,7 +55,8 @@ def reg(request):
             email=email,
             name=name,
             phone=phone,
-            addr=addr
+            addr=addr,
+            task=task
         )
 
         newReg.save()
@@ -121,4 +123,16 @@ def deleteuser(request,id):
 
 
 def admin1(request):
-    return render(request, 'main/admin.html')
+    user_id = request.user
+    data = UserReg.objects.get(user=user_id)
+    show = UserReg.objects.all()
+    user_count = UserReg.objects.all().count()
+    # user_count = UserReg.objects.filter(user=request.user.id).count()
+    return render(request, 'main/admin.html', {'data': data, 'show':show, 'user_count':user_count})
+
+
+def approve(request,id):
+    data = UserReg.objects.get(id=id)
+    data.is_completed=True
+    data.save()
+    return redirect ('admin1')

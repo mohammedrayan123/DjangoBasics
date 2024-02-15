@@ -29,6 +29,7 @@ urlpatterns = [
     path("admin1",admin1,name="admin1"),
     path("edit-profile/<str:id>/",editprofile,name="editprofile"),
     path('delete/<int:id>/', deleteuser, name='deleteuser'),  
+    path('approve/<int:id>/', approve, name='approve'),  
 
 
 
